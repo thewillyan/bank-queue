@@ -21,6 +21,7 @@ Makefile.in
 /test-driver
 /ylwrap
 .deps/
+.libs/
 .dirstamp
 
 # http://www.gnu.org/software/autoconf
