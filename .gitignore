@@ -4,6 +4,7 @@
 *.lo
 src/bank
 tests/check_io
+tests/check_logtree
 
 # Test log files
 *.gcno
