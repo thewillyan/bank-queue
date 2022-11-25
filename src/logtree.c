@@ -186,6 +186,10 @@ float log_media_por_classe(RBT *T, Log *no, Classe classe) {
 
   tempo_total = log_obter_soma_por_classe(T, no, classe);
   clientes = log_obter_contagem_por_classe(T, no, classe);
+
+  if (clientes == 0)
+    return 0;
+
   media = (float)tempo_total / (float)clientes;
   return media;
 }
