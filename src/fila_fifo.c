@@ -54,6 +54,8 @@ int f_obter_proxima_chave(Fila_FIFO *f) {
   f->prim = no->ant;
   if (f->ult == no)
     f->ult = NULL;
+  else
+    f->prim->prox = NULL;
   f->tam--;
   free(no);
 
