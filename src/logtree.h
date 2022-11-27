@@ -1,13 +1,7 @@
 #ifndef logtree_h
 #define logtree_h
-typedef enum classe {
-  NULO = 0,
-  Premium = 1,
-  Ouro = 2,
-  Prata = 3,
-  Bronze = 4,
-  Leezu = 5
-} Classe;
+
+#include "cliente.h"
 
 typedef enum { Negro, Rubro } Cor;
 
