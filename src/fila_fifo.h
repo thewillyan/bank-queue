@@ -12,11 +12,10 @@ typedef struct node{
 typedef struct fila{
     Node *prim;
     Node *ult;
-    Classe classe;
     int tam;   
 }Fila_FIFO;
 
-Fila_FIFO * f_inicializar (Classe classe);
+Fila_FIFO * f_inicializar ();
 int f_inserir (Fila_FIFO *f, int chave, int valor);
 int f_obter_proxima_chave (Fila_FIFO *f);
 int f_consultar_proxima_chave (Fila_FIFO *f);
