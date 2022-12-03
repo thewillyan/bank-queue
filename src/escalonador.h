@@ -5,7 +5,7 @@
 
 typedef struct _escalonador {
     Fila_FIFO* filas[5];
-    int* caixas;
+    int* timers;
     int disciplina[5];
     int delta;
     int fila_atual;

@@ -14,7 +14,7 @@ START_TEST(test_inicializar)
     ck_assert_msg(e.fila_atual == 0, "Wrong current queue");
 
     for(i = 0; i < 10; i++) {
-        ck_assert(e.caixas[i] == 0);
+        ck_assert(e.timers[i] == 0);
     }
 
     for(i = 0; i < 5; i++) {
@@ -69,6 +69,39 @@ START_TEST(test_obter_prox)
 }
 END_TEST
 
+
+START_TEST(test_consultar_prox)
+{
+    Escalonador e;
+
+    e_inicializar(&e, 3, 7, 1, 1, 2, 1, 1);
+    e_inserir_por_fila(&e, 1, 42, 3);
+    e_inserir_por_fila(&e, 1, 50, 3);
+    e_inserir_por_fila(&e, 3, 100, 2);
+    e_inserir_por_fila(&e, 3, 120, 2);
+    e_inserir_por_fila(&e, 5, 32, 1);
+
+    ck_assert(e_consultar_prox_num_conta(&e) == 42);
+    ck_assert(e_consultar_prox_num_conta(&e) == 42);
+    e_obter_prox_num_conta(&e);
+
+    ck_assert(e_consultar_prox_num_conta(&e) == 100);
+    e_obter_prox_num_conta(&e);
+
+    ck_assert(e_consultar_prox_num_conta(&e) == 120);
+    e_obter_prox_num_conta(&e);
+
+    ck_assert(e_consultar_prox_num_conta(&e) == 32);
+    e_obter_prox_num_conta(&e);
+
+    ck_assert(e_consultar_prox_num_conta(&e) == 50);
+    e_obter_prox_num_conta(&e);
+
+    ck_assert(e_consultar_prox_num_conta(&e) == 0);
+    ck_assert(e_consultar_prox_num_conta(&e) == 0);
+}
+END_TEST
+
 Suite * io_suite(void) {
     Suite *s;
     TCase *tc_core;
@@ -79,6 +112,7 @@ Suite * io_suite(void) {
     tcase_add_test(tc_core, test_inicializar);
     tcase_add_test(tc_core, test_incluir);
     tcase_add_test(tc_core, test_obter_prox);
+    tcase_add_test(tc_core, test_consultar_prox);
     suite_add_tcase(s, tc_core);
 
     return s;
