@@ -4,16 +4,15 @@
 #include <stdlib.h>
 
 START_TEST(test_inicializar) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   ck_assert(F->prim == NULL);
   ck_assert(F->ult == NULL);
   ck_assert(F->tam == 0);
-  ck_assert(F->classe == Premium);
 }
 END_TEST
 
 START_TEST(test_inserir_um_no) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   int resp = f_inserir(F, 1, 10);
   ck_assert(resp == 1);
   ck_assert(F->prim->chave == 1);
@@ -29,7 +28,7 @@ START_TEST(test_inserir_um_no) {
 END_TEST
 
 START_TEST(test_inserir_dois_nos) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   f_inserir(F, 2, 20);
   ck_assert(F->prim->chave == 1);
@@ -43,7 +42,7 @@ START_TEST(test_inserir_dois_nos) {
 END_TEST
 
 START_TEST(test_inserir_tres_nos) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   f_inserir(F, 2, 20);
   f_inserir(F, 3, 30);
@@ -56,7 +55,7 @@ START_TEST(test_inserir_tres_nos) {
 END_TEST
 
 START_TEST(test_inserir_chave_repetida) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   int resp = f_inserir(F, 1, 20);
   ck_assert(resp == 0);
@@ -64,7 +63,7 @@ START_TEST(test_inserir_chave_repetida) {
 END_TEST
 
 START_TEST(test_obter_uma_chave) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   int chave = f_obter_proxima_chave(F);
 
@@ -76,7 +75,7 @@ START_TEST(test_obter_uma_chave) {
 END_TEST
 
 START_TEST(test_obter_duas_chaves) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   f_inserir(F, 2, 20);
 
@@ -96,7 +95,7 @@ START_TEST(test_obter_duas_chaves) {
 END_TEST
 
 START_TEST(test_obter_tres_chaves) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   f_inserir(F, 2, 20);
   f_inserir(F, 3, 30);
@@ -124,14 +123,14 @@ START_TEST(test_obter_tres_chaves) {
 END_TEST
 
 START_TEST(test_obter_nenhuma_chave) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   int chave = f_obter_proxima_chave(F);
   ck_assert(chave == 0);
 }
 END_TEST
 
 START_TEST(test_consultar_prox_chave) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   int chave = f_consultar_proxima_chave(F);
   ck_assert(chave == 1);
@@ -140,14 +139,14 @@ START_TEST(test_consultar_prox_chave) {
 END_TEST
 
 START_TEST(test_consultar_prox_chave_nula) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   int chave = f_consultar_proxima_chave(F);
   ck_assert(chave == 0);
 }
 END_TEST
 
 START_TEST(test_consultar_prox_valor) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   int valor = f_consultar_proximo_valor(F);
   ck_assert(valor == 10);
@@ -156,14 +155,14 @@ START_TEST(test_consultar_prox_valor) {
 END_TEST
 
 START_TEST(test_consultar_prox_valor_nulo) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   int valor = f_consultar_proximo_valor(F);
   ck_assert(valor == 0);
 }
 END_TEST
 
 START_TEST(test_num_elementos) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   ck_assert(f_num_elementos(F) == 0);
   f_inserir(F, 1, 10);
   ck_assert(f_num_elementos(F) == 1);
@@ -171,7 +170,7 @@ START_TEST(test_num_elementos) {
 END_TEST
 
 START_TEST(test_consultar_chave_na_pos) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   f_inserir(F, 2, 20);
   f_inserir(F, 3, 30);
@@ -184,14 +183,14 @@ START_TEST(test_consultar_chave_na_pos) {
 END_TEST
 
 START_TEST(test_consultar_chave_na_pos_NULA) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   ck_assert(f_consultar_chave_por_posicao(F, 2) == -1);
 }
 END_TEST
 
 START_TEST(test_consultar_valor_na_pos) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   f_inserir(F, 2, 20);
   f_inserir(F, 3, 30);
@@ -204,7 +203,7 @@ START_TEST(test_consultar_valor_na_pos) {
 END_TEST
 
 START_TEST(test_consultar_valor_na_pos_NULA) {
-  Fila_FIFO *F = f_inicializar(Premium);
+  Fila_FIFO *F = f_inicializar();
   f_inserir(F, 1, 10);
   ck_assert(f_consultar_valor_por_posicao(F, 2) == -1);
 }

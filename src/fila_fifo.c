@@ -11,11 +11,10 @@ Node *f_criar_no(Fila_FIFO *f, int valor, int chave) {
   return no;
 }
 
-Fila_FIFO *f_inicializar(Classe classe) {
+Fila_FIFO *f_inicializar() {
   Fila_FIFO *fila = malloc(sizeof(Fila_FIFO));
   fila->prim = fila->ult = NULL;
   fila->tam = 0;
-  fila->classe = classe;
   return fila;
 }
 
