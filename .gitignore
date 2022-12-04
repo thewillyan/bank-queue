@@ -5,6 +5,9 @@
 src/bank
 tests/*
 !tests/check_*.c
+.vscode
+src/Makefile_dus_guri
+
 
 # Test log files
 *.gcno
