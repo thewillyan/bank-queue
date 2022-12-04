@@ -6,7 +6,6 @@ src/bank
 tests/*
 !tests/check_*.c
 
-
 # Test log files
 *.gcno
 *.log
