@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "escalonador.h"
 #include "fila_fifo.h"
+#include "io.h"
 
 void e_inicializar(Escalonador *e, int caixas, int delta_t, int n_1, int n_2,
         int n_3,int n_4, int n_5)
@@ -93,5 +94,34 @@ int e_consultar_tempo_prox_cliente (Escalonador *e) {
     return (!ops)? -1 : ops * e->delta;
 }
 
-/*int e_conf_por_arquivo (Escalonador *e, char *nome_arq_conf);*/
+int e_conf_por_arquivo(Escalonador *e, char *nome_arq_conf) {
+    int line_num, caixas, delta, *n, *cli_data;
+    FILE *fp;
+    char* line; 
+    size_t len = 0;
+
+    fp = fopen(nome_arq_conf, "r");
+    
+    if (fp == NULL) return 0;
+
+    line_num = 0;
+    while(getline(&line, &len, fp) != -1) {
+        line_num++;
+        if(line_num == 1) {
+            caixas = get_num(line);
+        } else if(line_num == 2) {
+            delta = get_num(line);
+        } else if(line_num == 3) {
+            n = get_nums(line);
+            e_inicializar(e, caixas, delta, n[0], n[1], n[2], n[3], n[4]);
+        } else {
+            cli_data = get_client(line);
+            e_inserir_por_fila(e, cli_data[0], cli_data[1], cli_data[2]);
+        }
+    }
+
+    fclose(fp);
+    return 1;
+}
+
 /*void e_rodar (Escalonador *e, char *nome_arq_in, char *nome_arq_out);*/

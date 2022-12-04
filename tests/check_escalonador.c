@@ -189,6 +189,37 @@ START_TEST(test_consultar_tempo_prox_cliente)
 }
 END_TEST
 
+START_TEST(test_conf_por_arq)
+{
+    int i, disciplina[5] = { 9, 7, 6, 5, 3 };
+    Escalonador e;
+    ck_assert_msg(e_conf_por_arquivo(&e, "input_example.txt"),
+            "Failed to read the config file");
+
+    ck_assert(sizeof(e.timers) == 2 * sizeof(int)); 
+    ck_assert(e.delta == 1);
+
+    for(i = 0; i < 5; i++) {
+        ck_assert(e.disciplina[i] == disciplina[i]);
+    }
+
+    ck_assert(e_consultar_prox_qtde_oper(&e) == 10);
+    ck_assert(e_obter_prox_num_conta(&e) == 639309);
+
+    ck_assert(e_consultar_prox_qtde_oper(&e) == 8);
+    ck_assert(e_obter_prox_num_conta(&e) == 48002);
+
+    ck_assert(e_consultar_prox_qtde_oper(&e) == 11);
+    ck_assert(e_obter_prox_num_conta(&e) == 705111);
+
+    ck_assert(e_consultar_prox_qtde_oper(&e) == 4);
+    ck_assert(e_obter_prox_num_conta(&e) == 442409);
+
+    ck_assert(e_consultar_prox_qtde_oper(&e) == 10);
+    ck_assert(e_obter_prox_num_conta(&e) == 761616);
+}
+END_TEST
+
 Suite * io_suite(void) {
     Suite *s;
     TCase *tc_core;
@@ -204,6 +235,8 @@ Suite * io_suite(void) {
     tcase_add_test(tc_core, test_consultar_prox_fila);
     tcase_add_test(tc_core, test_consultar_qtde_clientes);
     tcase_add_test(tc_core, test_consultar_tempo_prox_cliente);
+    tcase_add_test(tc_core, test_conf_por_arq);
+
     suite_add_tcase(s, tc_core);
 
     return s;
