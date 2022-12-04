@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
   printf("Media %f\n", log_media_por_classe(T, T->raiz, 2));
 
   Escalonador e;
-  e_rodar(&e, "tests/input_example.txt", "");
+  e_rodar(&e, "tests/input_example.txt", "tests/output_example.txt");
 
   return EXIT_SUCCESS;
 }
