@@ -1,6 +1,5 @@
 #ifndef fila_fifo_h
 #define fila_fifo_h
-#include "logtree.h"
 
 typedef struct node{
     int valor;

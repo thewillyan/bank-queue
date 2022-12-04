@@ -15,5 +15,6 @@ check_fila_fifo_LDADD = $(top_builddir)/src/libfila_fifo.la @CHECK_LIBS@
 
 check_escalonador_SOURCES = check_escalonador.c $(top_builddir)/src/escalonador.h
 check_escalonador_CFLAGS = @CHECK_CFLAGS@
-check_escalonador_LDADD = $(top_builddir)/src/libescalonador.la \
-						  $(top_builddir)/src/libfila_fifo.la @CHECK_LIBS@
+check_escalonador_LDADD = $(top_builddir)/src/libfila_fifo.la \
+						  $(top_builddir)/src/libio.la \
+						  $(top_builddir)/src/libescalonador.la @CHECK_LIBS@

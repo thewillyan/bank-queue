@@ -3,9 +3,15 @@
 
 #include "fila_fifo.h"
 
+typedef struct _caixa {
+    int timer;
+    int atendidos;
+} Caixa;
+
 typedef struct _escalonador {
     Fila_FIFO* filas[5];
-    int* timers;
+    Caixa* caixas;
+    int tam_caixas;
     int disciplina[5];
     int delta;
     int fila_atual;

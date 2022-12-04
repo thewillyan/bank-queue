@@ -13,15 +13,19 @@ void e_inicializar(Escalonador *e, int caixas, int delta_t, int n_1, int n_2,
     e->fila_atual = 0;
     e->atendidos = 0;
     e->delta = delta_t;
-    e->timers = malloc(caixas * sizeof(int));
+    e->tam_caixas = caixas;
 
     for(i = 0; i < 5; i++) {
         e->filas[i] = f_inicializar();
         e->disciplina[i] = disciplina[i];
     }
 
-    for(i = 0; i < caixas; i++)
-        e->timers[i] = 0;
+    e->caixas = malloc(caixas * sizeof(Caixa));
+
+    for(i = 0; i < caixas; i++){
+        e->caixas[i].atendidos = 0;
+        e->caixas[i].timer = 0;
+    }
 }
 
 int e_inserir_por_fila (Escalonador *e, int classe, int num_conta,
@@ -124,4 +128,35 @@ int e_conf_por_arquivo(Escalonador *e, char *nome_arq_conf) {
     return 1;
 }
 
-/*void e_rodar (Escalonador *e, char *nome_arq_in, char *nome_arq_out);*/
+void e_rodar (Escalonador *e, char *nome_arq_in, char *nome_arq_out) {
+    int t, i, ops, conta, clientes, tot_time;
+    char classe[16];
+
+    e_conf_por_arquivo(e, nome_arq_in);
+    clientes = e_consultar_qtde_clientes(e);
+
+    while(clientes > 0) {
+        for(i = 0; i < e->tam_caixas; i++) {
+            if(e->caixas[i].timer == t) {
+                clientes--;
+                e->caixas[i].atendidos++;
+                e->caixas[i].timer += e_consultar_tempo_prox_cliente(e);
+
+                ops = e_consultar_prox_qtde_oper(e);
+                conta = e_obter_prox_num_conta(e);
+                class_to_str(e->fila_atual + 1, classe);
+
+                printf("T = %i min: Caixa %i chama da categoria %s cliente da "
+                        "conta %i para realizar %i operacao(oes).\n", t, i+1,
+                        classe, conta, ops);
+            }
+        }
+        t++;
+    }
+
+    for(i = 0; i < e->tam_caixas; i++){
+        tot_time = (e->caixas[i].timer > tot_time)? e->caixas[i].timer:tot_time;
+    }
+
+    printf("Tempo total de atendimento: %i minutos.\n", tot_time);
+}

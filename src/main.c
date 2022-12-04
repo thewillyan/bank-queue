@@ -1,4 +1,5 @@
 #include "logtree.h"
+#include "escalonador.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,5 +29,9 @@ int main(int argc, char *argv[]) {
     log_emordem(T, T->raiz);
     printf("Altura em negros %d\n", log_alt_negros(T));
     printf("Media %f\n", log_media_por_classe(T, T->raiz, 2));
+
+    Escalonador e;
+    e_rodar(&e, "tests/input_example.txt", "");
+
     return EXIT_SUCCESS;
 }
