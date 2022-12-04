@@ -3,9 +3,8 @@
 *.la
 *.lo
 src/bank
-tests/check_io
-tests/check_logtree
-tests/check_fila_fifo
+tests/*
+!tests/check_*.c
 
 # Test log files
 *.gcno

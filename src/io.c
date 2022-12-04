@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "cliente.h"
 #include "io.h"
 
 int get_num(char* conf_line) {
@@ -107,4 +108,9 @@ int* get_client(char* conf_line) {
     } while(len < 3);
 
     return nums;
+}
+
+void class_to_str(Classe classe, char* dest) {
+    char dict[5][16] = { "Premium", "Ouro", "Prata", "Bronze", "Leezu" };
+    strcpy(dest, dict[classe - 1]);
 }

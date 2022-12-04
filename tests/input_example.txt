@@ -1,0 +1,8 @@
+qtde de caixas = 2
+delta t = 1
+disciplina de escalonamento = {9,7,6,5,3}
+Premium - conta 639309 - 10 operacao(oes)
+Ouro - conta 48002 - 8 operacao(oes)
+Prata - conta 705111 - 11 operacao(oes)
+Bronze - conta 442409 - 4 operacao(oes)
+Leezu - conta 761616 - 10 operacao(oes)
