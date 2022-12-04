@@ -146,6 +146,7 @@ void e_rodar(Escalonador *e, char *nome_arq_in, char *nome_arq_out) {
   if (arq_out == NULL)
     return;
 
+  t = tot_time = 0;
   while (clientes > 0) {
     for (i = 0; i < e->tam_caixas; i++) {
       if (e->caixas[i].timer == t) {
