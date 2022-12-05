@@ -66,7 +66,7 @@ START_TEST(test_obter_prox_conta)
     ck_assert(e_obter_prox_num_conta(&e) == 120);
     ck_assert(e_obter_prox_num_conta(&e) == 32);
     ck_assert(e_obter_prox_num_conta(&e) == 50);
-    ck_assert(e_obter_prox_num_conta(&e) == 0);
+    ck_assert(e_obter_prox_num_conta(&e) == -1);
 }
 END_TEST
 
@@ -98,8 +98,8 @@ START_TEST(test_consultar_prox_conta)
     ck_assert(e_consultar_prox_num_conta(&e) == 50);
     e_obter_prox_num_conta(&e);
 
-    ck_assert(e_consultar_prox_num_conta(&e) == 0);
-    ck_assert(e_consultar_prox_num_conta(&e) == 0);
+    ck_assert(e_consultar_prox_num_conta(&e) == -1);
+    ck_assert(e_consultar_prox_num_conta(&e) == -1);
 }
 END_TEST
 
@@ -108,7 +108,7 @@ START_TEST(test_consultar_prox_qtde_ops)
     Escalonador e;
 
     e_inicializar(&e, 3, 7, 1, 1, 2, 1, 1);
-    ck_assert(e_consultar_prox_qtde_oper(&e) == 0);
+    ck_assert(e_consultar_prox_qtde_oper(&e) == -1);
 
     e_inserir_por_fila(&e, 1, 42, 3);
     e_inserir_por_fila(&e, 3, 100, 2);
@@ -117,7 +117,7 @@ START_TEST(test_consultar_prox_qtde_ops)
     e_obter_prox_num_conta(&e);
     ck_assert(e_consultar_prox_qtde_oper(&e) == 2);
     e_obter_prox_num_conta(&e);
-    ck_assert(e_consultar_prox_qtde_oper(&e) == 0);
+    ck_assert(e_consultar_prox_qtde_oper(&e) == -1);
 }
 END_TEST
 
