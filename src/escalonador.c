@@ -146,22 +146,21 @@ void e_rodar(Escalonador *e, char *nome_arq_in, char *nome_arq_out) {
   if (arq_out == NULL)
     return;
 
-  t = tot_time = 0;
+  i = t = tot_time = 0;
   while (clientes > 0) {
-    for (i = 0; i < e->tam_caixas; i++) {
-      if (e->caixas[i].timer == t) {
-        clientes--;
-        e->caixas[i].atendidos++;
-        e->caixas[i].timer += e_consultar_tempo_prox_cliente(e);
+    if (e->caixas[i].timer == t) {
+      clientes--;
+      e->caixas[i].atendidos++;
+      e->caixas[i].timer += e_consultar_tempo_prox_cliente(e);
 
-        ops = e_consultar_prox_qtde_oper(e);
-        conta = e_obter_prox_num_conta(e);
+      ops = e_consultar_prox_qtde_oper(e);
+      conta = e_obter_prox_num_conta(e);
 
-        log_registrar(T, conta, e->fila_atual + 1, t, i + 1, ops);
-        o_tempo_cliente(t, i + 1, e->fila_atual + 1, conta, ops, arq_out);
-      }
+      log_registrar(T, conta, e->fila_atual + 1, t, i + 1, ops);
+      o_tempo_cliente(t, i + 1, e->fila_atual + 1, conta, ops, arq_out);
     }
-    t++;
+    i = (i+1) % e->tam_caixas;
+    if(i == 0) t++;
   }
 
   for (i = 0; i < e->tam_caixas; i++) {
