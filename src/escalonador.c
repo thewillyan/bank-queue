@@ -100,7 +100,7 @@ int e_consultar_qtde_clientes(Escalonador *e) {
 int e_consultar_tempo_prox_cliente(Escalonador *e) {
   int ops;
   ops = e_consultar_prox_qtde_oper(e);
-  return (!ops) ? -1 : ops * e->delta;
+  return (ops == -1)? -1 : ops * e->delta;
 }
 
 int e_conf_por_arquivo(Escalonador *e, char *nome_arq_conf) {
