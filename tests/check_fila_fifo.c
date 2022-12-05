@@ -141,7 +141,7 @@ END_TEST
 START_TEST(test_consultar_prox_chave_nula) {
   Fila_FIFO *F = f_inicializar();
   int chave = f_consultar_proxima_chave(F);
-  ck_assert(chave == 0);
+  ck_assert(chave == -1);
 }
 END_TEST
 
@@ -157,7 +157,7 @@ END_TEST
 START_TEST(test_consultar_prox_valor_nulo) {
   Fila_FIFO *F = f_inicializar();
   int valor = f_consultar_proximo_valor(F);
-  ck_assert(valor == 0);
+  ck_assert(valor == -1);
 }
 END_TEST
 
