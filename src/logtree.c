@@ -7,22 +7,23 @@ RBT *log_inicializar() {
   Log *nulo = malloc(sizeof(Log));
 
   nulo->esq = nulo->dir = nulo->pai = NULL;
-  nulo->chave = (Classe)0;
   nulo->cor = Negro;
-  nulo->conta = nulo->caixa = -1;
+  nulo->ops = nulo->chave = nulo->conta = nulo->caixa = -1;
 
   T->nulo = nulo;
   T->raiz = T->nulo;
   return T;
 }
 
-Log *log_criar_no(Log *pai, int conta, int classe, float timer, int caixa) {
+Log *log_criar_no(Log *pai, int conta, int classe, int timer, int caixa,
+                  int ops) {
   Log *no;
   no = malloc(sizeof(Log));
-  no->chave = (Classe)classe;
+  no->chave = timer;
+  no->classe = (Classe)classe;
   no->conta = conta;
-  no->timer = timer;
   no->caixa = caixa;
+  no->ops = ops;
   no->pai = pai;
   no->esq = no->dir = NULL;
   // Segredo dos deuses ta aqui
@@ -121,9 +122,10 @@ void log_concertar(RBT *T, Log *caba) {
   T->raiz->cor = Negro;
 }
 
-void log_registrar(RBT *T, int conta, int classe, float timer, int caixa) {
+void log_registrar(RBT *T, int conta, int classe, int timer, int caixa,
+                   int ops) {
   Log *no, *raiz = T->raiz, *pai = T->nulo;
-  Classe chave = (Classe)classe;
+  int chave = timer;
 
   while (raiz != T->nulo) {
     pai = raiz;
@@ -133,7 +135,7 @@ void log_registrar(RBT *T, int conta, int classe, float timer, int caixa) {
       raiz = raiz->dir;
   }
 
-  no = log_criar_no(pai, conta, classe, timer, caixa);
+  no = log_criar_no(pai, conta, classe, timer, caixa, ops);
 
   if (pai == T->nulo)
     T->raiz = no;
@@ -150,15 +152,12 @@ int log_obter_soma_por_classe(RBT *T, Log *no, Classe classe) {
   if (no == T->nulo) {
     return 0;
   } else {
-    if (no->chave == classe) {
-      return no->timer + log_obter_soma_por_classe(T, no->esq, classe) +
+    if (no->classe == classe) {
+      return no->chave + log_obter_soma_por_classe(T, no->esq, classe) +
              log_obter_soma_por_classe(T, no->dir, classe);
     } else {
-      if (no->chave < classe) {
-        return 0 + log_obter_soma_por_classe(T, no->dir, classe);
-      } else {
-        return 0 + log_obter_soma_por_classe(T, no->esq, classe);
-      }
+      return 0 + log_obter_soma_por_classe(T, no->esq, classe) +
+             log_obter_soma_por_classe(T, no->dir, classe);
     }
   }
 }
@@ -167,15 +166,12 @@ int log_obter_contagem_por_classe(RBT *T, Log *no, Classe classe) {
   if (no == T->nulo) {
     return 0;
   } else {
-    if (no->chave == classe) {
+    if (no->classe == classe) {
       return 1 + log_obter_contagem_por_classe(T, no->esq, classe) +
              log_obter_contagem_por_classe(T, no->dir, classe);
     } else {
-      if (no->chave < classe) {
-        return 0 + log_obter_contagem_por_classe(T, no->dir, classe);
-      } else {
-        return 0 + log_obter_contagem_por_classe(T, no->esq, classe);
-      }
+      return 0 + log_obter_contagem_por_classe(T, no->esq, classe) +
+             log_obter_contagem_por_classe(T, no->dir, classe);
     }
   }
 }
@@ -212,4 +208,59 @@ int log_alt_negros(RBT *T) {
     no = no->esq;
   }
   return alt;
+}
+
+Log *log_maximo(RBT *T) {
+  Log *no;
+  if (T->raiz == T->nulo)
+    return NULL;
+  no = T->raiz;
+  while (no->dir != T->nulo)
+    no = no->dir;
+
+  return no;
+}
+
+Tubias log_tubias(RBT *T, Classe classe) {
+  Tubias toba;
+  Log *curr, *pre;
+  toba.ops = toba.clientes = toba.tempo_total = 0;
+
+  if (T->raiz == T->nulo)
+    return toba;
+
+  curr = T->raiz;
+  while (curr != T->nulo) {
+
+    if (curr->esq == T->nulo) {
+      if (curr->classe == classe) {
+        toba.ops += curr->ops;
+        toba.clientes++;
+        toba.tempo_total += curr->chave;
+      }
+      curr = curr->dir;
+    } else {
+      pre = curr->esq;
+      while (pre->dir != T->nulo && pre->dir != curr)
+        pre = pre->dir;
+
+      if (pre->dir == T->nulo) {
+        pre->dir = curr;
+        curr = curr->esq;
+      }
+
+      else {
+        pre->dir = T->nulo;
+
+        if (curr->classe == classe) {
+          toba.ops += curr->ops;
+          toba.clientes++;
+          toba.tempo_total += curr->chave;
+        }
+        curr = curr->dir;
+      }
+    }
+  }
+
+  return toba;
 }
