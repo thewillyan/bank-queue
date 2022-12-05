@@ -47,7 +47,7 @@ int f_obter_proxima_chave(Fila_FIFO *f) {
   int chave;
 
   if (no == NULL)
-    return 0;
+    return -1;
 
   chave = no->chave;
   f->prim = no->ant;

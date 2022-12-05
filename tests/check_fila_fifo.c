@@ -125,7 +125,7 @@ END_TEST
 START_TEST(test_obter_nenhuma_chave) {
   Fila_FIFO *F = f_inicializar();
   int chave = f_obter_proxima_chave(F);
-  ck_assert(chave == 0);
+  ck_assert(chave == -1);
 }
 END_TEST
 
