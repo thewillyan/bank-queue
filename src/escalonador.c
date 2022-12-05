@@ -54,7 +54,7 @@ int e_obter_prox_num_conta(Escalonador *e) {
     e->atendidos = 0;
 
   num_conta = f_obter_proxima_chave(e->filas[e->fila_atual]);
-  if (num_conta != 0)
+  if (num_conta != -1)
     e->atendidos++;
 
   return num_conta;
@@ -67,9 +67,9 @@ int e_consultar_prox_num_conta(Escalonador *e) {
   count = 0;
   do {
     num_conta = f_consultar_proxima_chave(e->filas[prox_fila]);
-    if (num_conta == 0)
+    if (num_conta == -1)
       prox_fila = (prox_fila + 1) % 5;
-  } while (num_conta == 0 && ++count < 5);
+  } while (num_conta == -1 && ++count < 5);
 
   return num_conta;
 }
@@ -81,9 +81,9 @@ int e_consultar_prox_qtde_oper(Escalonador *e) {
   count = 0;
   do {
     qtde = f_consultar_proximo_valor(e->filas[prox_fila]);
-    if (qtde == 0)
+    if (qtde == -1)
       prox_fila = (prox_fila + 1) % 5;
-  } while (qtde == 0 && ++count < 5);
+  } while (qtde == -1 && ++count < 5);
 
   return qtde;
 }
