@@ -46,7 +46,7 @@ void o_tempo_classe(RBT *T, FILE *arq_out) {
 
   for (i = 0; i < 5; i++) {
     fprintf(arq_out, "Tempo medio de espera dos %d clientes %s: %.2f\n",
-            clientes[i], nome_da_classe(i + 1, 1),
+            clientes[i], nome_da_classe(i + 1, 0),
             clientes[i] == 0 ? (float)0
                              : (float)tempos[i] / (float)clientes[i]);
   }
