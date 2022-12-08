@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
   s_e = check_if_dir_exists(SAIDA_ESP);
   s_p = check_if_dir_exists(SAIDA_PROD);
 
-  if (en || s_e || s_p)
+  if (en || s_e)
     return EXIT_FAILURE;
 
   nome_arq_in = nome_arq(ENTRADA, 1, argv[1]);

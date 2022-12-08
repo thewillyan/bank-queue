@@ -25,3 +25,5 @@ jobs:
       run: make check
     - name: make distcheck
       run: make distcheck
+    - name: compare outputs
+      run: ./check.sh 100
