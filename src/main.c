@@ -1,3 +1,10 @@
+/*
+Aluno - Matricula
+
+André Willyan de Sousa - 537550
+Marcelo Meireles Marques Filho - 536927
+Said Cavalcante Rodrigues - 538349
+*/
 #include "escalonador.h"
 #include "logtree.h"
 #include <stdio.h>
