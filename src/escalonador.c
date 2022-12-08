@@ -5,7 +5,11 @@
 #include "output.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
+/* Inicializa as propriedades do escalonador com o número de caixas, delta 
+ * e disciplina dados.
+ * Inclui filas vazias nos caixas e propriedades de estado igual a 0.*/
 void e_inicializar(Escalonador *e, int caixas, int delta_t, int n_1, int n_2,
                    int n_3, int n_4, int n_5) {
   int disciplina[5] = {n_1, n_2, n_3, n_4, n_5};
@@ -29,11 +33,16 @@ void e_inicializar(Escalonador *e, int caixas, int delta_t, int n_1, int n_2,
   }
 }
 
+/* Insere um cliente na sua respectiva fila atrelada a sua classe.
+ * A chave de cada cliente é sua conta e o valor é sua quantidade
+ * de operações.
+ * Retorna 0 em caso de falha e 1 em caso de sucesso. */
 int e_inserir_por_fila(Escalonador *e, int classe, int num_conta,
                        int qtde_operacoes) {
   return f_inserir(e->filas[--classe], num_conta, qtde_operacoes);
 }
 
+// Retorna a próxma fila a ser atendida de acordo com a disciplina de atendimento
 int e_consultar_prox_fila(Escalonador *e) {
   int disciplina = e->disciplina[e->fila_atual];
   int len = f_num_elementos(e->filas[e->fila_atual]);
@@ -41,6 +50,8 @@ int e_consultar_prox_fila(Escalonador *e) {
                                                   : e->fila_atual;
 }
 
+/* Retorna o número da conta do próximo cliente a ser atendido, o retirando da 
+ * sua respectiva fila. Caso não houver cliente a ser atendido retorna -1.*/
 int e_obter_prox_num_conta(Escalonador *e) {
   int num_conta, count, old_fila;
 
@@ -60,6 +71,8 @@ int e_obter_prox_num_conta(Escalonador *e) {
   return num_conta;
 }
 
+/* Retorna o número da conta do próximo cliente a ser atendido ou -1 caso não 
+ * houver clientes.*/
 int e_consultar_prox_num_conta(Escalonador *e) {
   int num_conta, count, prox_fila;
 
@@ -74,6 +87,8 @@ int e_consultar_prox_num_conta(Escalonador *e) {
   return num_conta;
 }
 
+/* Retorna a quantidade de operações do próximo cliente a ser atendido ou -1 
+ * caso não houver clientes.*/
 int e_consultar_prox_qtde_oper(Escalonador *e) {
   int qtde, count, prox_fila;
 
@@ -88,6 +103,7 @@ int e_consultar_prox_qtde_oper(Escalonador *e) {
   return qtde;
 }
 
+// Retorna o total de clientes nas filas
 int e_consultar_qtde_clientes(Escalonador *e) {
   int qtde, i;
   qtde = 0;
@@ -97,12 +113,15 @@ int e_consultar_qtde_clientes(Escalonador *e) {
   return qtde;
 };
 
+/* Retorna quanto tempo o próximo cliente vai demorar no caixa ou -1 
+ * caso não houver clientes.*/
 int e_consultar_tempo_prox_cliente(Escalonador *e) {
   int ops;
   ops = e_consultar_prox_qtde_oper(e);
   return (ops == -1)? -1 : ops * e->delta;
 }
 
+// Inicializa o escalonador a partir do arquivo de configuração dado.
 int e_conf_por_arquivo(Escalonador *e, char *nome_arq_conf) {
   int line_num, caixas, delta, *n, *cli_data;
   FILE *fp;
@@ -134,6 +153,8 @@ int e_conf_por_arquivo(Escalonador *e, char *nome_arq_conf) {
   return 1;
 }
 
+/* Simula o atendimento dos caixas a partir do escalonador gerado com arquivo 
+ * de entrada e registra os logs no arquivo de saida.*/
 void e_rodar(Escalonador *e, char *nome_arq_in, char *nome_arq_out) {
   int t, i, ops, conta, clientes, tot_time;
   RBT *T = log_inicializar();
