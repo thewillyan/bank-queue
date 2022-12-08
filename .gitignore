@@ -7,10 +7,7 @@ tests/*
 !tests/check_*.c
 .vscode
 src/Makefile_dus_guri
-entradas
-saidas-esperadas
-saidas-prod
-
+saidas-prod/*
 
 # Test log files
 *.gcno
