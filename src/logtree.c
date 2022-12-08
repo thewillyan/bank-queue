@@ -2,6 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+Inicilicializa um Arvore Rubro Negra com um nulo de T ja alocado
+Isso vai diminuir a quantidade de de nos nulos para a propriedade
+Rubro Negra
+*/
 RBT *log_inicializar() {
   RBT *T = malloc(sizeof(RBT));
   Log *nulo = malloc(sizeof(Log));
@@ -15,6 +20,10 @@ RBT *log_inicializar() {
   return T;
 }
 
+/*
+Aqui vai criar um no da arvore com as informacoes de conta
+classe, tempo, caixa e operacoes
+ */
 Log *log_criar_no(Log *pai, int conta, int classe, int timer, int caixa,
                   int ops) {
   Log *no;
@@ -32,6 +41,15 @@ Log *log_criar_no(Log *pai, int conta, int classe, int timer, int caixa,
   return no;
 }
 
+/*
+ Isso aqui eh pra concertar as propriedades rubro negras
+ Rotacionado a arvore a esquerda de um no X
+    raiz                       raiz
+     |                          |
+     Y      log_rotesq(T, X)    X
+    /  \        --->          /  \
+  NULO  X                    Y  NULO
+ */
 void log_rotesq(RBT *T, Log *x) {
   Log *y = x->dir;
   x->dir = y->esq;
@@ -52,6 +70,10 @@ void log_rotesq(RBT *T, Log *x) {
   x->pai = y;
 }
 
+/*
+ Isso aqui eh pra concertar as propriedades rubro negras
+ Rotacionado a arvore a direita de um no Y
+ */
 void log_rotdir(RBT *T, Log *y) {
   Log *x = y->esq;
   y->esq = x->dir;
@@ -122,6 +144,11 @@ void log_concertar(RBT *T, Log *caba) {
   T->raiz->cor = Negro;
 }
 
+/*
+Aqui eu registro um novo no na RBT na posicao mais adequada
+onde a chave de cada no eh o timer, dps de inserido eu
+concerto a arvore para manter as prop. Rubro Negras
+*/
 void log_registrar(RBT *T, int conta, int classe, int timer, int caixa,
                    int ops) {
   Log *no, *raiz = T->raiz, *pai = T->nulo;
@@ -148,6 +175,11 @@ void log_registrar(RBT *T, int conta, int classe, int timer, int caixa,
   log_concertar(T, no);
 };
 
+/*
+Aqui retorna a quantidade de tempo que uma determinada classe
+ocupou utilizando recursao, se a classe do no for igual a classe
+do parametro eu retorno o tempo, senao eu retorno 0
+*/
 int log_obter_soma_por_classe(RBT *T, Log *no, Classe classe) {
   if (no == T->nulo) {
     return 0;
@@ -162,6 +194,11 @@ int log_obter_soma_por_classe(RBT *T, Log *no, Classe classe) {
   }
 }
 
+/*
+Aqui retorna a quantidade de clientes que uma determinada classe
+utilizando recursao, se a classe do no for igual a classe
+do parametro eu retorno o 1, senao eu retorno 0
+*/
 int log_obter_contagem_por_classe(RBT *T, Log *no, Classe classe) {
   if (no == T->nulo) {
     return 0;
@@ -176,6 +213,10 @@ int log_obter_contagem_por_classe(RBT *T, Log *no, Classe classe) {
   }
 }
 
+/*
+Utilizando as duas recursoes anteriores eu criou uma media entre elas
+e retorno esse valor
+*/
 float log_media_por_classe(RBT *T, Log *no, Classe classe) {
   int clientes, tempo_total;
   float media;
@@ -190,6 +231,9 @@ float log_media_por_classe(RBT *T, Log *no, Classe classe) {
   return media;
 }
 
+/*
+Faz o percurso em ordem da arvore
+*/
 void log_emordem(RBT *T, Log *no) {
   if (no != T->nulo) {
     log_emordem(T, no->esq);
@@ -198,6 +242,10 @@ void log_emordem(RBT *T, Log *no) {
   }
 }
 
+/*
+Retorna a altura em negros nao nulos da arvore para avaliar
+as propriedades rubro negras
+*/
 int log_alt_negros(RBT *T) {
   int alt = 0;
   Log *no = T->raiz;
@@ -210,6 +258,10 @@ int log_alt_negros(RBT *T) {
   return alt;
 }
 
+/*
+Retorna um endereco para o no com o maior tempo, portanto o MAXIMO da RBT,
+ja que utilizamos o tempo como chave
+*/
 Log *log_maximo(RBT *T) {
   Log *no;
   if (T->raiz == T->nulo)
@@ -221,6 +273,16 @@ Log *log_maximo(RBT *T) {
   return no;
 }
 
+/*
+Aqui ocorre a transversao em ordem da arvore para pegar as operacoes,
+quantidade e tempo total de cada classe.
+E eu retorno uma estrutura chamada TUBIAS que eh so um Struct que
+possui como campos ops, clientes e tempo_total
+Assim eu economizo 2 transversoes da arvore para cada classe
+na hora de gerar o output
+Poderia ser mais eficiente se fosse utilizado como chave a classe, mas
+ficaria mais dificil de achar o tempo maximo da arvore
+*/
 Tubias log_tubias(RBT *T, Classe classe) {
   Tubias toba;
   Log *curr, *pre;
